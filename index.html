@@ -290,11 +290,14 @@
                         <p class="text-xs text-gray-500">Login sebagai: <strong id="loggedInAdminLabel" class="text-emerald-600">-</strong> · Tersinkronisasi dengan Google Spreadsheet</p>
                     </div>
                 </div>
-                <div class="flex items-center space-x-3">
-                    <button type="button" onclick="switchView('store')" class="px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-800 text-sm font-semibold rounded-xl transition flex items-center space-x-2 cursor-pointer">
+                <div class="flex flex-wrap items-center gap-2.5 sm:gap-3">
+                    <button type="button" onclick="openChangeCredentialsModal()" class="px-4 sm:px-5 py-2.5 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-sm font-semibold rounded-xl transition flex items-center space-x-2 cursor-pointer">
+                        <i class="fa-solid fa-key"></i><span>Ubah Username &amp; Password</span>
+                    </button>
+                    <button type="button" onclick="switchView('store')" class="px-4 sm:px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-800 text-sm font-semibold rounded-xl transition flex items-center space-x-2 cursor-pointer">
                         <i class="fa-solid fa-arrow-left"></i><span>Kembali ke Mode Toko</span>
                     </button>
-                    <button type="button" onclick="handleAdminLogout()" class="px-5 py-2.5 bg-red-50 hover:bg-red-100 text-red-600 text-sm font-semibold rounded-xl transition flex items-center space-x-2 cursor-pointer">
+                    <button type="button" onclick="handleAdminLogout()" class="px-4 sm:px-5 py-2.5 bg-red-50 hover:bg-red-100 text-red-600 text-sm font-semibold rounded-xl transition flex items-center space-x-2 cursor-pointer">
                         <i class="fa-solid fa-right-from-bracket"></i><span>Keluar Admin</span>
                     </button>
                 </div>
@@ -625,6 +628,43 @@
                 </div>
                 <p id="adminLoginErrorMsg" class="text-xs text-red-600 font-semibold hidden bg-red-50 border border-red-200 rounded-xl px-3 py-2"></p>
                 <button type="submit" id="adminLoginSubmitBtn" class="w-full py-3 bg-brand-500 hover:bg-brand-600 text-white font-semibold rounded-xl text-sm transition shadow-md cursor-pointer">Masuk ke Panel</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 1B. Change Admin Username & Password Modal -->
+    <div id="changeCredentialsModal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex items-start sm:items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full p-6 sm:p-8 relative my-auto max-h-[92vh] overflow-y-auto">
+            <button type="button" onclick="toggleChangeCredentialsModal(false)" class="absolute top-6 right-6 text-gray-400 hover:text-gray-600 cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl"><i class="fa-solid fa-key"></i></div>
+                <h3 class="font-serif text-2xl font-bold text-gray-900">Ubah Username &amp; Password</h3>
+                <p class="text-xs text-gray-500 mt-1">Perbarui kredensial login admin Anda. Perubahan otomatis disimpan ke sistem &amp; Spreadsheet.</p>
+            </div>
+            <form onsubmit="handleChangeCredentialsSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 uppercase mb-1.5">Username Baru</label>
+                    <input type="text" id="newAdminUsername" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:outline-none text-sm" placeholder="Masukkan username baru">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 uppercase mb-1.5">Password Lama (Verifikasi)</label>
+                    <input type="password" id="oldAdminPassword" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:outline-none text-sm" placeholder="Masukkan password saat ini">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 uppercase mb-1.5">Password Baru</label>
+                    <input type="password" id="newAdminPassword" required minlength="4" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:outline-none text-sm" placeholder="Masukkan password baru">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 uppercase mb-1.5">Konfirmasi Password Baru</label>
+                    <input type="password" id="confirmAdminPassword" required minlength="4" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:outline-none text-sm" placeholder="Ulangi password baru">
+                </div>
+                <p id="changeCredErrorMsg" class="text-xs text-red-600 font-semibold hidden bg-red-50 border border-red-200 rounded-xl px-3 py-2"></p>
+                <div class="flex space-x-3 pt-1">
+                    <button type="button" onclick="toggleChangeCredentialsModal(false)" class="flex-1 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl text-sm transition cursor-pointer">Batal</button>
+                    <button type="submit" id="saveCredentialsSubmitBtn" class="flex-1 py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-xl text-sm transition shadow-md flex items-center justify-center space-x-2 cursor-pointer">
+                        <i class="fa-solid fa-key"></i><span>Simpan Perubahan</span>
+                    </button>
+                </div>
             </form>
         </div>
     </div>
@@ -1635,6 +1675,128 @@
             document.getElementById('adminBtnText').innerText = "Admin";
             switchView('store');
             showToast("Berhasil Keluar Admin", "Kembali ke mode tampilan pelanggan.");
+        }
+
+        /* ==========================================
+           UBAH USERNAME & PASSWORD ADMIN
+           ========================================== */
+        function openChangeCredentialsModal() {
+            if (!appState.isAdminLoggedIn) return;
+            const errEl = document.getElementById('changeCredErrorMsg');
+            if (errEl) {
+                errEl.classList.add('hidden');
+                errEl.innerText = '';
+            }
+            document.getElementById('newAdminUsername').value = appState.currentAdminUser || '';
+            document.getElementById('oldAdminPassword').value = '';
+            document.getElementById('newAdminPassword').value = '';
+            document.getElementById('confirmAdminPassword').value = '';
+            document.getElementById('changeCredentialsModal').classList.remove('hidden');
+        }
+
+        function toggleChangeCredentialsModal(show) {
+            const modal = document.getElementById('changeCredentialsModal');
+            if (show) modal.classList.remove('hidden');
+            else modal.classList.add('hidden');
+        }
+
+        async function handleChangeCredentialsSubmit(e) {
+            e.preventDefault();
+            const oldUsername = String(appState.currentAdminUser || '').trim();
+            const newUsername = document.getElementById('newAdminUsername').value.trim();
+            const oldPassword = document.getElementById('oldAdminPassword').value.trim();
+            const newPassword = document.getElementById('newAdminPassword').value.trim();
+            const confirmPassword = document.getElementById('confirmAdminPassword').value.trim();
+            const errEl = document.getElementById('changeCredErrorMsg');
+            const submitBtn = document.getElementById('saveCredentialsSubmitBtn');
+
+            errEl.classList.add('hidden');
+
+            if (!newUsername) {
+                errEl.innerText = "Username baru tidak boleh kosong!";
+                errEl.classList.remove('hidden');
+                return;
+            }
+            if (newPassword.length < 4) {
+                errEl.innerText = "Password baru minimal 4 karakter!";
+                errEl.classList.remove('hidden');
+                return;
+            }
+            if (newPassword !== confirmPassword) {
+                errEl.innerText = "Konfirmasi password baru tidak cocok!";
+                errEl.classList.remove('hidden');
+                return;
+            }
+
+            if (!Array.isArray(appState.adminAccounts) || appState.adminAccounts.length === 0) {
+                appState.adminAccounts = [...DEFAULT_ADMIN_ACCOUNTS];
+            }
+
+            const currentAccIndex = appState.adminAccounts.findIndex(
+                acc => String(acc.username || '').trim().toLowerCase() === oldUsername.toLowerCase()
+            );
+
+            if (currentAccIndex !== -1) {
+                const storedPass = String(appState.adminAccounts[currentAccIndex].password || '').trim();
+                if (storedPass && storedPass !== oldPassword) {
+                    errEl.innerText = "Password lama tidak sesuai!";
+                    errEl.classList.remove('hidden');
+                    return;
+                }
+            }
+
+            const duplicateUser = appState.adminAccounts.some(
+                (acc, idx) => idx !== currentAccIndex && String(acc.username || '').trim().toLowerCase() === newUsername.toLowerCase()
+            );
+            if (duplicateUser) {
+                errEl.innerText = `Username "${newUsername}" sudah digunakan akun lain!`;
+                errEl.classList.remove('hidden');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i><span>Menyimpan...</span>`;
+
+            if (currentAccIndex !== -1) {
+                appState.adminAccounts[currentAccIndex].username = newUsername;
+                appState.adminAccounts[currentAccIndex].password = newPassword;
+            } else {
+                appState.adminAccounts.push({
+                    username: newUsername,
+                    password: newPassword,
+                    status: 'Aktif'
+                });
+            }
+
+            appState.currentAdminUser = newUsername;
+            document.getElementById('adminBtnText').innerHTML = `<span class="text-emerald-600 font-bold">${newUsername} (Aktif)</span>`;
+            document.getElementById('loggedInAdminLabel').innerText = newUsername;
+
+            saveToStorage(false);
+
+            try {
+                await fetch(getScriptUrl(), {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({
+                        action: "changeAdminCredentials",
+                        oldUsername: oldUsername,
+                        oldPassword: oldPassword,
+                        newUsername: newUsername,
+                        newPassword: newPassword,
+                        state: getStoreSnapshot()
+                    })
+                });
+            } catch (err) {
+                console.error("Gagal sinkronisasi perubahan akun admin:", err);
+            }
+
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = `<i class="fa-solid fa-key"></i><span>Simpan Perubahan</span>`;
+
+            toggleChangeCredentialsModal(false);
+            showToast("Akun Diperbarui!", `Username & Password berhasil diubah menjadi "${newUsername}".`);
         }
 
         function filterCategory(cat) {
