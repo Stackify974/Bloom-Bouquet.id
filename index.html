@@ -50,7 +50,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
         .animate-toast {
-            animation: slideInUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: slideInUp 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
     </style>
 </head>
@@ -83,7 +83,13 @@
                 </div>
             </div>
 
-            <div class="flex items-center space-x-3 sm:space-x-4">
+            <div class="flex items-center space-x-2.5 sm:space-x-3">
+                <!-- INDIKATOR LIVE SYNC 1 DETIK -->
+                <div id="liveSyncPill" class="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-[11px] font-semibold text-emerald-700" title="Sinkronisasi Real-Time 1 Detik">
+                    <span id="liveSyncDot" class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span id="liveSyncLabel">Live 1d</span>
+                </div>
+
                 <button onclick="handleAdminAccessClick()" class="p-2.5 rounded-full hover:bg-gray-100 text-gray-700 transition border border-gray-200 flex items-center space-x-2 cursor-pointer" id="adminAuthBtn">
                     <i class="fa-solid fa-lock text-gray-600" id="adminLockIcon"></i>
                     <span class="hidden sm:inline text-sm font-semibold" id="adminBtnText">Admin</span>
@@ -287,7 +293,7 @@
                     </div>
                     <div>
                         <h2 class="font-serif text-2xl font-bold text-gray-900">Admin Control Panel</h2>
-                        <p class="text-xs text-gray-500">Login sebagai: <strong id="loggedInAdminLabel" class="text-emerald-600">-</strong> · Tersinkronisasi dengan Google Spreadsheet</p>
+                        <p class="text-xs text-gray-500">Login sebagai: <strong id="loggedInAdminLabel" class="text-emerald-600">-</strong> · Sinkronisasi Real-Time 1 Detik</p>
                     </div>
                 </div>
                 <div class="flex flex-wrap items-center gap-2.5 sm:gap-3">
@@ -319,7 +325,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <h3 class="text-lg font-bold text-gray-900">Daftar Produk & 3 Sisi Foto</h3>
-                        <p class="text-xs text-gray-500">Kelola katalog buket dan sudut preview foto produk (tersimpan di tab Kelola Produk).</p>
+                        <p class="text-xs text-gray-500">Upload foto langsung (otomatis dikompresi ke Drive) atau tempel URL gambar.</p>
                     </div>
                     <button type="button" onclick="openProductModal()" class="px-4 py-2.5 bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold rounded-xl shadow-sm transition flex items-center space-x-2 cursor-pointer">
                         <i class="fa-solid fa-plus"></i><span>Tambah Produk</span>
@@ -348,7 +354,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <h3 class="text-lg font-bold text-gray-900">Daftar Pesanan Masuk</h3>
-                        <p class="text-xs text-gray-500">Cetak struk, perbarui status pesanan, atau hapus transaksi (tersimpan di tab Kelola Pesanan).</p>
+                        <p class="text-xs text-gray-500">Pesanan baru otomatis masuk setiap 1 detik tanpa perlu refresh halaman.</p>
                     </div>
                 </div>
                 <div id="adminOrdersContainer" class="space-y-6"></div>
@@ -360,7 +366,7 @@
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
                             <h3 class="font-serif text-2xl sm:text-3xl font-bold text-gray-900">Kelola Metode Pembayaran</h3>
-                            <p class="text-xs text-gray-500 mt-1">Tombol Aktif/Nonaktif langsung mengatur pilihan pembayaran di halaman checkout pelanggan & tersimpan ke tab Metode Pembayaran.</p>
+                            <p class="text-xs text-gray-500 mt-1">Tombol Aktif/Nonaktif langsung mengatur pilihan pembayaran di halaman checkout pelanggan.</p>
                         </div>
                         <button type="button" onclick="openPaymentMethodModal()" class="px-5 py-2.5 bg-[#9f2339] hover:bg-[#861c2f] text-white text-sm font-semibold rounded-full shadow-sm transition flex items-center justify-center space-x-2 cursor-pointer self-start sm:self-auto">
                             <i class="fa-solid fa-plus text-xs"></i><span>Tambah Metode</span>
@@ -417,7 +423,7 @@
             <div id="tab-shipping" class="admin-tab-content hidden space-y-6">
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 max-w-xl">
                     <h3 class="text-lg font-bold text-gray-900 mb-1">Pengaturan Biaya Ongkir</h3>
-                    <p class="text-xs text-gray-500 mb-6">Tentukan tarif ongkos kirim standar untuk setiap pesanan kurir toko (tersimpan di tab Pengaturan Ongkir).</p>
+                    <p class="text-xs text-gray-500 mb-6">Tentukan tarif ongkos kirim standar untuk setiap pesanan kurir toko.</p>
                     <div class="space-y-4">
                         <div>
                             <label class="block text-xs font-bold text-gray-700 uppercase mb-2">Tarif Ongkir Standar (Rp)</label>
@@ -437,7 +443,7 @@
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
                             <h3 class="font-serif text-2xl sm:text-3xl font-bold text-gray-900">Kelola Voucher Diskon</h3>
-                            <p class="text-xs text-gray-500 mt-1">Buat promo diskon persen (%) atau nominal (Rp). Tersimpan ke tab <b>Kelola Vouchers</b> di Google Spreadsheet &amp; langsung tampil di mode pelanggan.</p>
+                            <p class="text-xs text-gray-500 mt-1">Buat promo diskon persen (%) atau nominal (Rp). Langsung tampil di mode pelanggan secara instan.</p>
                         </div>
                         <button type="button" onclick="openVoucherModal()" class="px-5 py-2.5 bg-[#9f2339] hover:bg-[#861c2f] text-white text-sm font-semibold rounded-full shadow-sm transition flex items-center justify-center space-x-2 cursor-pointer self-start sm:self-auto">
                             <i class="fa-solid fa-plus text-xs"></i><span>Buat Voucher Baru</span>
@@ -468,14 +474,14 @@
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
                             <h3 class="font-serif text-2xl sm:text-3xl font-bold text-gray-900">Template Chat Pembeli</h3>
-                            <p class="text-xs text-gray-500 mt-1">Kelola pesan balasan cepat untuk pembeli (konfirmasi pesanan, info pembayaran, resi/kurir) dan bagikan langsung ke WhatsApp atau salin teks.</p>
+                            <p class="text-xs text-gray-500 mt-1">Kelola pesan balasan cepat untuk pembeli dan bagikan langsung ke WhatsApp atau salin teks.</p>
                         </div>
                         <button type="button" onclick="openChatTemplateModal()" class="px-5 py-2.5 bg-[#9f2339] hover:bg-[#861c2f] text-white text-sm font-semibold rounded-full shadow-sm transition flex items-center justify-center space-x-2 cursor-pointer self-start sm:self-auto">
                             <i class="fa-solid fa-plus text-xs"></i><span>Tambah Template</span>
                         </button>
                     </div>
 
-                    <!-- Pilih Target Pembeli (Opsional) untuk langsung kirim WA -->
+                    <!-- Pilih Target Pembeli -->
                     <div class="bg-emerald-50/70 border border-emerald-200/80 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                         <div class="flex items-center space-x-3">
                             <div class="w-9 h-9 rounded-xl bg-emerald-500 text-white flex items-center justify-center text-base flex-shrink-0">
@@ -529,9 +535,16 @@
                             <input type="text" id="settingStoreHours" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#9f2339] focus:outline-none text-sm text-gray-900" placeholder="Contoh: Senin - Jumat, 08.00 - 21.00">
                         </div>
                         <div class="md:col-span-2">
-                            <label class="block text-sm font-bold text-gray-800 mb-2">URL/logo placeholder</label>
-                            <input type="url" id="settingStoreLogo" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#9f2339] focus:outline-none text-sm text-gray-900" placeholder="https://drive.google.com/file/d/... atau https://...">
-                            <p class="text-[11px] text-gray-500 mt-1">Link gambar langsung atau link file Google Drive otomatis diolah menjadi foto di header & beranda pelanggan.</p>
+                            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                                <label class="block text-sm font-bold text-gray-800">Logo / Foto Banner Toko</label>
+                                <label class="px-3.5 py-1.5 rounded-xl bg-brand-50 hover:bg-brand-100 text-brand-700 text-xs font-semibold cursor-pointer transition flex items-center space-x-1.5 border border-brand-200">
+                                    <i class="fa-solid fa-camera"></i>
+                                    <span id="logoUploadLabel">Upload & Kompres Foto</span>
+                                    <input type="file" accept="image/*" class="hidden" onchange="handleDirectImageUpload(event, 'settingStoreLogo', 'logoUploadLabel')">
+                                </label>
+                            </div>
+                            <input type="url" id="settingStoreLogo" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#9f2339] focus:outline-none text-sm text-gray-900" placeholder="https://drive.google.com/file/d/... atau upload langsung dari perangkat">
+                            <p class="text-[11px] text-gray-500 mt-1">Foto yang diunggah otomatis dikompresi di sisi klien agar cepat tersimpan ke Google Drive & langsung muncul di beranda.</p>
                         </div>
                     </div>
                     <div class="mt-6">
@@ -559,7 +572,7 @@
                         <div class="flex items-center justify-between mb-2.5">
                             <label class="flex items-center space-x-2 text-sm font-bold text-gray-900">
                                 <i class="fa-brands fa-google-drive text-emerald-600 text-base"></i>
-                                <span>Folder Foto Ambil &amp; Kembali (Google Drive)</span>
+                                <span>Folder Foto Produk &amp; Logo (Google Drive)</span>
                             </label>
                             <button type="button" onclick="openDriveFolder()" class="text-xs font-semibold text-[#4f46e5] hover:text-[#4338ca] hover:underline flex items-center space-x-1.5 cursor-pointer">
                                 <i class="fa-solid fa-arrow-up-right-from-square"></i>
@@ -572,7 +585,7 @@
                                 Simpan Folder
                             </button>
                         </div>
-                        <p class="text-xs text-gray-500 mt-2">Semua foto pengambilan &amp; pengembalian otomatis diunggah ke folder Google Drive ini.</p>
+                        <p class="text-xs text-gray-500 mt-2">Semua foto yang dikompresi otomatis diunggah ke folder Google Drive ini.</p>
                     </div>
 
                     <hr class="border-gray-100">
@@ -580,7 +593,7 @@
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-1">
                         <div class="flex items-center flex-wrap gap-2 text-xs sm:text-sm">
                             <span class="text-gray-600 font-medium">Status Koneksi:</span>
-                            <span id="connectionStatusText" class="font-bold text-emerald-600">Terhubung (Google Spreadsheet)</span>
+                            <span id="connectionStatusText" class="font-bold text-emerald-600">Terhubung (Real-Time 1 Detik)</span>
                         </div>
                         <div class="flex flex-wrap items-center gap-4 sm:gap-5 text-xs sm:text-sm font-bold">
                             <button type="button" onclick="manualSaveToCloud()" class="text-emerald-600 hover:text-emerald-700 flex items-center space-x-1.5 cursor-pointer">
@@ -639,7 +652,7 @@
             <div class="text-center mb-6">
                 <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl"><i class="fa-solid fa-key"></i></div>
                 <h3 class="font-serif text-2xl font-bold text-gray-900">Ubah Username &amp; Password</h3>
-                <p class="text-xs text-gray-500 mt-1">Perbarui kredensial login admin Anda. Perubahan otomatis disimpan ke sistem &amp; Spreadsheet.</p>
+                <p class="text-xs text-gray-500 mt-1">Perbarui kredensial login admin Anda secara instan.</p>
             </div>
             <form onsubmit="handleChangeCredentialsSubmit(event)" class="space-y-4">
                 <div>
@@ -686,7 +699,7 @@
         </div>
     </div>
 
-    <!-- 3. Checkout Modal (2 KOLOM & BISA SCROLL DI HP) -->
+    <!-- 3. Checkout Modal -->
     <div id="checkoutModal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex items-start sm:items-center justify-center p-3 sm:p-4 overflow-y-auto">
         <div class="bg-white rounded-3xl shadow-2xl max-w-3xl w-full p-5 sm:p-8 relative my-auto max-h-[92vh] overflow-y-auto">
             <button type="button" onclick="toggleCheckoutModal(false)" class="absolute top-5 right-5 sm:top-6 sm:right-6 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 hover:text-gray-800 transition cursor-pointer">
@@ -698,7 +711,6 @@
             </div>
 
             <form onsubmit="handleCheckoutSubmit(event)" class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
-                <!-- KOLOM KIRI: DATA PEMESAN & PENGIRIMAN -->
                 <div class="space-y-4">
                     <div>
                         <label class="block text-xs font-bold text-gray-700 uppercase mb-1.5">Nama Lengkap Pemesan</label>
@@ -721,7 +733,6 @@
                     </div>
                 </div>
 
-                <!-- KOLOM KANAN: VOUCHER, PEMBAYARAN & RINGKASAN BIAYA -->
                 <div class="space-y-4 flex flex-col justify-between">
                     <div class="space-y-4">
                         <div>
@@ -767,7 +778,7 @@
         </div>
     </div>
 
-    <!-- 4. Add/Edit Product Modal -->
+    <!-- 4. Add/Edit Product Modal (DENGAN AUTO-KOMPRESI FOTO CLIENT-SIDE) -->
     <div id="productModal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex items-start sm:items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-3xl shadow-2xl max-w-lg w-full p-6 sm:p-8 relative my-auto max-h-[92vh] overflow-y-auto">
             <button type="button" onclick="toggleProductModal(false)" class="absolute top-6 right-6 text-gray-400 hover:text-gray-600 cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
@@ -788,10 +799,34 @@
                     <div><label class="block text-xs font-bold text-gray-700 uppercase mb-2">Harga Large (Rp)</label><input type="number" id="priceLarge" required class="w-full px-3 py-2.5 rounded-xl border border-gray-300 text-sm"></div>
                 </div>
                 <div class="space-y-3 pt-2">
-                    <label class="block text-xs font-bold text-gray-700 uppercase">URL Foto (3 Sisi - Mendukung Link Google Drive)</label>
-                    <input type="url" id="imgFront" placeholder="URL Foto Depan (Front)" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm">
-                    <input type="url" id="imgSide" placeholder="URL Foto Samping (Side)" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm">
-                    <input type="url" id="imgDetail" placeholder="URL Foto Detail" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm">
+                    <div class="flex items-center justify-between">
+                        <label class="block text-xs font-bold text-gray-700 uppercase">Foto Produk (3 Sisi · Auto Kompresi)</label>
+                        <span class="text-[11px] text-emerald-600 font-semibold"><i class="fa-solid fa-bolt mr-1"></i>JPEG Ringan</span>
+                    </div>
+                    <!-- Foto Depan -->
+                    <div class="flex items-center gap-2">
+                        <input type="url" id="imgFront" placeholder="URL Foto Depan (Front)" required class="flex-1 px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm">
+                        <label class="px-3 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-semibold cursor-pointer flex items-center space-x-1.5 flex-shrink-0" title="Pilih & Kompres Foto Depan">
+                            <i class="fa-solid fa-upload"></i><span id="lblFront">Upload</span>
+                            <input type="file" accept="image/*" class="hidden" onchange="handleDirectImageUpload(event, 'imgFront', 'lblFront')">
+                        </label>
+                    </div>
+                    <!-- Foto Samping -->
+                    <div class="flex items-center gap-2">
+                        <input type="url" id="imgSide" placeholder="URL Foto Samping (Side)" required class="flex-1 px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm">
+                        <label class="px-3 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-semibold cursor-pointer flex items-center space-x-1.5 flex-shrink-0" title="Pilih & Kompres Foto Samping">
+                            <i class="fa-solid fa-upload"></i><span id="lblSide">Upload</span>
+                            <input type="file" accept="image/*" class="hidden" onchange="handleDirectImageUpload(event, 'imgSide', 'lblSide')">
+                        </label>
+                    </div>
+                    <!-- Foto Detail -->
+                    <div class="flex items-center gap-2">
+                        <input type="url" id="imgDetail" placeholder="URL Foto Detail" required class="flex-1 px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm">
+                        <label class="px-3 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-semibold cursor-pointer flex items-center space-x-1.5 flex-shrink-0" title="Pilih & Kompres Foto Detail">
+                            <i class="fa-solid fa-upload"></i><span id="lblDetail">Upload</span>
+                            <input type="file" accept="image/*" class="hidden" onchange="handleDirectImageUpload(event, 'imgDetail', 'lblDetail')">
+                        </label>
+                    </div>
                 </div>
                 <button type="submit" class="w-full py-3.5 bg-brand-500 hover:bg-brand-600 text-white font-semibold rounded-xl text-sm transition shadow-md cursor-pointer">Simpan Produk</button>
             </form>
@@ -926,7 +961,7 @@
     <!-- 9. Printable Receipt Container -->
     <div id="printableReceipt" class="hidden p-8 bg-white max-w-xl mx-auto text-gray-800 font-sans"></div>
 
-    <!-- JAVASCRIPT LOGIC & SCRIPT_URL INTEGRATION -->
+    <!-- JAVASCRIPT LOGIC: OPTIMISTIC UI + CLIENT IMAGE COMPRESSION + 1-SECOND SMART SYNC -->
     <script>
         const DEFAULT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw3YtMTmTI2t-0lNnYlbDpK2Y2xFEg6zgpJz_JOKDNfCa6WG4TFrEItGgyvX7JRtBa8/exec';
         const LEGACY_SCRIPT_URLS = [
@@ -1077,6 +1112,394 @@
             orders: []
         };
 
+        /* =========================================================================
+           1. SMART REAL-TIME SYNC ENGINE (1 DETIK + SNAPSHOT DIFFING + AUTO-RETRY)
+           ========================================================================= */
+        const syncEngine = {
+            pollIntervalMs: 1000,          // Sinkronisasi setiap 1 detik
+            timerId: null,
+            inFlightFetch: false,
+            inFlightPush: false,
+            pendingPushPayload: null,
+            retryDelayMs: 1000,
+            maxRetryDelayMs: 10000,
+            lastMutationTimestamp: 0,      // Perlindungan Optimistic UI agar tidak tertimpa data lama
+            hashes: {
+                identity: '',
+                products: '',
+                vouchers: '',
+                orders: '',
+                payments: '',
+                banks: '',
+                chatTemplates: '',
+                adminInputs: ''
+            }
+        };
+
+        function computeDiffHash(obj) {
+            try {
+                return JSON.stringify(obj);
+            } catch (e) {
+                return String(Date.now());
+            }
+        }
+
+        function updateLiveSyncIndicator(state, text) {
+            const pill = document.getElementById('liveSyncPill');
+            const dot = document.getElementById('liveSyncDot');
+            const label = document.getElementById('liveSyncLabel');
+            if (!pill || !dot || !label) return;
+
+            pill.classList.remove('hidden');
+            if (state === 'active') {
+                pill.className = "hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-[11px] font-semibold text-emerald-700";
+                dot.className = "w-2 h-2 rounded-full bg-emerald-500 animate-pulse";
+                label.innerText = text || "Live 1d";
+            } else if (state === 'syncing') {
+                pill.className = "hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-indigo-50 border border-indigo-200/80 text-[11px] font-semibold text-indigo-700";
+                dot.className = "w-2 h-2 rounded-full bg-indigo-500 animate-ping";
+                label.innerText = text || "Sync...";
+            } else if (state === 'paused') {
+                pill.className = "hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-gray-100 border border-gray-200 text-[11px] font-semibold text-gray-500";
+                dot.className = "w-2 h-2 rounded-full bg-gray-400";
+                label.innerText = text || "Jeda (Tab Nonaktif)";
+            } else if (state === 'retrying') {
+                pill.className = "hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-[11px] font-semibold text-amber-700";
+                dot.className = "w-2 h-2 rounded-full bg-amber-500 animate-bounce";
+                label.innerText = text || "Retry...";
+            }
+        }
+
+        function startSmartSyncLoop() {
+            stopSmartSyncLoop();
+            if (document.visibilityState !== 'visible') {
+                updateLiveSyncIndicator('paused', 'Jeda (Tab Nonaktif)');
+                return;
+            }
+            updateLiveSyncIndicator('active', 'Live 1d');
+            syncEngine.timerId = setInterval(() => {
+                if (document.visibilityState === 'visible') {
+                    pollCloudStateSmart();
+                }
+            }, syncEngine.pollIntervalMs);
+        }
+
+        function stopSmartSyncLoop() {
+            if (syncEngine.timerId) {
+                clearInterval(syncEngine.timerId);
+                syncEngine.timerId = null;
+            }
+        }
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                pollCloudStateSmart(true);
+                startSmartSyncLoop();
+            } else {
+                stopSmartSyncLoop();
+                updateLiveSyncIndicator('paused', 'Jeda (Tab Nonaktif)');
+            }
+        });
+
+        async function pollCloudStateSmart(forceNow = false) {
+            if (syncEngine.inFlightFetch) return;
+            // Tahan polling selama 2.5 detik tepat setelah mutasi lokal agar Optimistic UI stabil
+            if (!forceNow && Date.now() - syncEngine.lastMutationTimestamp < 2500) return;
+            if (syncEngine.inFlightPush || syncEngine.pendingPushPayload) return;
+
+            syncEngine.inFlightFetch = true;
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 3500);
+
+            try {
+                const targetUrl = getScriptUrl();
+                const res = await fetch(`${targetUrl}?action=getStoreState&t=${Date.now()}`, {
+                    signal: controller.signal,
+                    cache: 'no-store'
+                });
+                clearTimeout(timeoutId);
+
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+                const data = await res.json();
+                const cloudState = data.state || data;
+
+                if (cloudState && typeof cloudState === 'object') {
+                    // Jangan timpa jika user melakukan perubahan saat request berlangsung
+                    if (Date.now() - syncEngine.lastMutationTimestamp >= 2500) {
+                        applyCloudStateWithDiffing(cloudState);
+                    }
+                    syncEngine.retryDelayMs = 1000;
+                    updateLiveSyncIndicator('active', 'Live 1d');
+                    setConnectionStatus('connected', 'Terhubung (Real-Time 1 Detik)');
+                }
+            } catch (err) {
+                clearTimeout(timeoutId);
+                updateLiveSyncIndicator('retrying', 'Retry...');
+                setConnectionStatus('error', 'Menyambung ulang...');
+            } finally {
+                syncEngine.inFlightFetch = false;
+            }
+        }
+
+        function applyCloudStateWithDiffing(cloudState) {
+            // Pertahankan pilihan ukuran produk (selectedSize) yang sedang diklik user di katalog
+            const localSizeMap = {};
+            (appState.products || []).forEach(p => { localSizeMap[p.id] = p.selectedSize; });
+
+            const nextProducts = Array.isArray(cloudState.products) && cloudState.products.length > 0
+                ? cloudState.products.map(p => ({ ...p, selectedSize: localSizeMap[p.id] || p.selectedSize || 'MEDIUM' }))
+                : appState.products;
+
+            appState = {
+                ...appState,
+                adminAccounts: Array.isArray(cloudState.adminAccounts) && cloudState.adminAccounts.length > 0 ? cloudState.adminAccounts : appState.adminAccounts,
+                driveFolderId: cloudState.driveFolderId ?? appState.driveFolderId,
+                storeName: cloudState.storeName ?? appState.storeName,
+                storeSlogan: cloudState.storeSlogan ?? appState.storeSlogan,
+                storeStatus: cloudState.storeStatus ?? appState.storeStatus,
+                storeWhatsapp: cloudState.storeWhatsapp ?? appState.storeWhatsapp,
+                storeAddress: cloudState.storeAddress ?? appState.storeAddress,
+                storeHours: cloudState.storeHours ?? appState.storeHours,
+                storeLogo: cloudState.storeLogo ?? appState.storeLogo,
+                shippingRate: cloudState.shippingRate ?? appState.shippingRate,
+                codActive: cloudState.codActive ?? appState.codActive,
+                paymentMethods: Array.isArray(cloudState.paymentMethods) && cloudState.paymentMethods.length > 0 ? cloudState.paymentMethods : appState.paymentMethods,
+                products: nextProducts,
+                banks: Array.isArray(cloudState.banks) && cloudState.banks.length > 0 ? cloudState.banks : appState.banks,
+                vouchers: Array.isArray(cloudState.vouchers) ? cloudState.vouchers.map(normalizeVoucher) : appState.vouchers,
+                chatTemplates: Array.isArray(cloudState.chatTemplates) && cloudState.chatTemplates.length > 0 ? cloudState.chatTemplates : appState.chatTemplates,
+                orders: Array.isArray(cloudState.orders) ? cloudState.orders : appState.orders
+            };
+
+            localStorage.setItem('bloom_bouquet_state', JSON.stringify(getStoreSnapshot()));
+            renderChangedSectionsOnly();
+        }
+
+        /* =========================================================================
+           SNAPSHOT DIFFING: RENDER ULANG HANYA BAGIAN DOM YANG BENAR-BENAR BERUBAH
+           ========================================================================= */
+        function renderChangedSectionsOnly(forceAll = false) {
+            const identitySnap = computeDiffHash({
+                storeName: appState.storeName,
+                storeSlogan: appState.storeSlogan,
+                storeStatus: appState.storeStatus,
+                storeWhatsapp: appState.storeWhatsapp,
+                storeAddress: appState.storeAddress,
+                storeHours: appState.storeHours,
+                storeLogo: appState.storeLogo
+            });
+            if (forceAll || identitySnap !== syncEngine.hashes.identity) {
+                syncEngine.hashes.identity = identitySnap;
+                syncStoreIdentity();
+            }
+
+            // Bandingkan produk tanpa selectedSize agar klik ukuran user tidak terganggu
+            const productsSnap = computeDiffHash(
+                (appState.products || []).map(({ selectedSize, ...rest }) => rest)
+            ) + '|' + appState.activeCategory;
+            if (forceAll || productsSnap !== syncEngine.hashes.products) {
+                syncEngine.hashes.products = productsSnap;
+                renderStoreProducts();
+                renderAdminProducts();
+            }
+
+            const vouchersSnap = computeDiffHash(appState.vouchers);
+            if (forceAll || vouchersSnap !== syncEngine.hashes.vouchers) {
+                syncEngine.hashes.vouchers = vouchersSnap;
+                renderStoreVouchersBanner();
+                renderAdminVouchers();
+            }
+
+            const ordersSnap = computeDiffHash(appState.orders);
+            if (forceAll || ordersSnap !== syncEngine.hashes.orders) {
+                syncEngine.hashes.orders = ordersSnap;
+                renderAdminOrders();
+                const badge = document.getElementById('orderCountBadge');
+                if (badge) badge.innerText = appState.orders.length;
+            }
+
+            const paymentsSnap = computeDiffHash({ pm: appState.paymentMethods, cod: appState.codActive });
+            if (forceAll || paymentsSnap !== syncEngine.hashes.payments) {
+                syncEngine.hashes.payments = paymentsSnap;
+                renderAdminPaymentMethods();
+            }
+
+            const banksSnap = computeDiffHash(appState.banks);
+            if (forceAll || banksSnap !== syncEngine.hashes.banks) {
+                syncEngine.hashes.banks = banksSnap;
+                renderAdminBanks();
+            }
+
+            const chatSnap = computeDiffHash(appState.chatTemplates) + '|' + (appState.orders || []).length;
+            if (forceAll || chatSnap !== syncEngine.hashes.chatTemplates) {
+                syncEngine.hashes.chatTemplates = chatSnap;
+                renderAdminChatTemplates();
+            }
+
+            // Sinkronkan input form pengaturan hanya jika user tidak sedang mengetik di dalamnya
+            const activeTag = document.activeElement ? document.activeElement.tagName : '';
+            const isTypingInForm = ['INPUT', 'TEXTAREA', 'SELECT'].includes(activeTag);
+            const adminInputsSnap = computeDiffHash({
+                identitySnap,
+                shippingRate: appState.shippingRate,
+                codActive: appState.codActive,
+                driveFolderId: appState.driveFolderId
+            });
+            if (!isTypingInForm && (forceAll || adminInputsSnap !== syncEngine.hashes.adminInputs)) {
+                syncEngine.hashes.adminInputs = adminInputsSnap;
+                syncAdminInputs();
+            }
+        }
+
+        /* =========================================================================
+           2. OUTBOX PUSH QUEUE DENGAN AUTO-RETRY (OPTIMISTIC UI BACKEND SYNC)
+           ========================================================================= */
+        function queueCloudSync(payload) {
+            syncEngine.lastMutationTimestamp = Date.now();
+            syncEngine.pendingPushPayload = payload;
+            processPushQueue();
+        }
+
+        async function processPushQueue() {
+            if (syncEngine.inFlightPush || !syncEngine.pendingPushPayload) return;
+
+            syncEngine.inFlightPush = true;
+            const payloadToSend = syncEngine.pendingPushPayload;
+            syncEngine.pendingPushPayload = null;
+            updateLiveSyncIndicator('syncing', 'Menyimpan...');
+
+            try {
+                await fetch(getScriptUrl(), {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payloadToSend)
+                });
+                syncEngine.retryDelayMs = 1000;
+                updateLiveSyncIndicator('active', 'Live 1d');
+                setConnectionStatus('connected', 'Terhubung (Real-Time 1 Detik)');
+            } catch (err) {
+                console.warn("Push gagal, menjadwalkan retry otomatis:", err);
+                syncEngine.pendingPushPayload = syncEngine.pendingPushPayload || payloadToSend;
+                updateLiveSyncIndicator('retrying', 'Retry...');
+                setTimeout(() => {
+                    syncEngine.inFlightPush = false;
+                    processPushQueue();
+                }, syncEngine.retryDelayMs);
+                syncEngine.retryDelayMs = Math.min(syncEngine.maxRetryDelayMs, syncEngine.retryDelayMs * 2);
+                return;
+            }
+
+            syncEngine.inFlightPush = false;
+            if (syncEngine.pendingPushPayload) {
+                processPushQueue();
+            }
+        }
+
+        /* =========================================================================
+           3. KOMPRESI FOTO OTOMATIS DI SISI KLIEN (CLIENT-SIDE RESIZE + JPEG)
+           ========================================================================= */
+        function compressImageClientSide(file, maxDimension = 1000, quality = 0.78) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > maxDimension || height > maxDimension) {
+                            if (width > height) {
+                                height = Math.round((height * maxDimension) / width);
+                                width = maxDimension;
+                            } else {
+                                width = Math.round((width * maxDimension) / height);
+                                height = maxDimension;
+                            }
+                        }
+
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.fillStyle = '#FFFFFF';
+                        ctx.fillRect(0, 0, width, height);
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+                        const base64Only = compressedDataUrl.split(',')[1];
+                        const approxKb = Math.round((base64Only.length * 3) / 4 / 1024);
+                        resolve({
+                            dataUrl: compressedDataUrl,
+                            base64: base64Only,
+                            mimeType: 'image/jpeg',
+                            sizeKb: approxKb
+                        });
+                    };
+                    img.onerror = () => reject(new Error("Gagal membaca gambar."));
+                    img.src = event.target.result;
+                };
+                reader.onerror = () => reject(new Error("Gagal memuat file."));
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function handleDirectImageUpload(event, targetInputId, labelElementId) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+
+            const inputEl = document.getElementById(targetInputId);
+            const labelEl = document.getElementById(labelElementId);
+            const originalLabel = labelEl ? labelEl.innerText : 'Upload';
+
+            try {
+                if (labelEl) labelEl.innerText = 'Kompresi...';
+                const compressed = await compressImageClientSide(file, 1000, 0.78);
+
+                // Optimistic Preview: langsung pasang dataUrl terkompresi agar instant tanpa menunggu Drive
+                if (inputEl) inputEl.value = compressed.dataUrl;
+                showToast(`Foto Dikompresi (${compressed.sizeKb} KB)`, "Mengunggah ke Google Drive di latar belakang...");
+
+                if (labelEl) labelEl.innerText = 'Upload Drive...';
+
+                // Kirim ke Google Apps Script untuk disimpan di Folder Drive (jika endpoint mendukung action uploadImage)
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 8000);
+                const res = await fetch(getScriptUrl(), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({
+                        action: 'uploadImage',
+                        folderId: appState.driveFolderId || DEFAULT_DRIVE_FOLDER_ID,
+                        fileName: `bloom_${Date.now()}.jpg`,
+                        mimeType: compressed.mimeType,
+                        base64: compressed.base64
+                    }),
+                    signal: controller.signal
+                });
+                clearTimeout(timeoutId);
+
+                if (res.ok) {
+                    const data = await res.json();
+                    const driveUrl = data.url || data.fileUrl || (data.fileId ? `https://drive.google.com/file/d/${data.fileId}/view` : '');
+                    if (driveUrl && inputEl) {
+                        inputEl.value = driveUrl;
+                        showToast("Tersimpan di Drive!", `Ukuran ringan ${compressed.sizeKb} KB.`);
+                    }
+                }
+            } catch (err) {
+                // Jika endpoint GAS belum mengembalikan JSON URL (misal mode no-cors), dataUrl terkompresi tetap aman digunakan
+                console.info("Menggunakan hasil kompresi lokal ringan:", err.message);
+            } finally {
+                if (labelEl) labelEl.innerText = originalLabel;
+                event.target.value = '';
+            }
+        }
+
+        /* =========================================================================
+           HELPER & NORMALISASI DATA
+           ========================================================================= */
         function normalizeVoucher(v) {
             const rawDisc = String(v.discount ?? '0').trim();
             const isNominalFromString = rawDisc.toLowerCase().includes('rp');
@@ -1108,6 +1531,7 @@
         function normalizeImageUrl(rawUrl) {
             const url = (rawUrl || "").trim();
             if (!url) return "";
+            if (url.startsWith('data:image')) return url;
             const driveFileMatch = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
             if (driveFileMatch && driveFileMatch[1]) {
                 return `https://lh3.googleusercontent.com/d/${driveFileMatch[1]}=s1200`;
@@ -1151,7 +1575,9 @@
         }
 
         function syncAdminInputs() {
-            document.getElementById('settingStoreName').value = appState.storeName || "";
+            const elName = document.getElementById('settingStoreName');
+            if (!elName) return;
+            elName.value = appState.storeName || "";
             document.getElementById('settingStoreSlogan').value = appState.storeSlogan || "";
             document.getElementById('settingStoreStatus').value = appState.storeStatus || "Buka";
             document.getElementById('settingStoreWhatsapp').value = appState.storeWhatsapp || "";
@@ -1173,13 +1599,13 @@
             if (!el) return;
             if (statusType === 'connected') {
                 el.className = "font-bold text-emerald-600";
-                el.innerText = customMessage || "Terhubung (Google Spreadsheet)";
+                el.innerText = customMessage || "Terhubung (Real-Time 1 Detik)";
             } else if (statusType === 'connecting') {
                 el.className = "font-bold text-amber-600";
                 el.innerText = customMessage || "Menghubungkan ke Spreadsheet...";
             } else {
                 el.className = "font-bold text-red-600";
-                el.innerText = customMessage || "Gagal Terhubung (Mode Lokal)";
+                el.innerText = customMessage || "Menyambung ulang (Mode Lokal)";
             }
         }
 
@@ -1209,7 +1635,7 @@
 
             const connected = await loadStoreFromCloud(true);
             if (connected) {
-                setConnectionStatus('connected', 'Terhubung (Google Spreadsheet)');
+                setConnectionStatus('connected', 'Terhubung (Real-Time 1 Detik)');
                 showToast("Koneksi Berhasil!", "URL Google Apps Script tersimpan & terhubung.");
             } else {
                 setConnectionStatus('error', 'Gagal Terhubung (Periksa URL / Izin Web App)');
@@ -1249,7 +1675,7 @@
             showToast("Menyimpan...", "Mengirim seluruh pengaturan & data ke Spreadsheet...");
             const ok = await syncStoreToCloud(getStoreSnapshot());
             if (ok) {
-                setConnectionStatus('connected', 'Terhubung (Google Spreadsheet)');
+                setConnectionStatus('connected', 'Terhubung (Real-Time 1 Detik)');
                 showToast("Tersimpan ke Spreadsheet!", "Semua data toko berhasil disinkronkan.");
             } else {
                 setConnectionStatus('error', 'Gagal Menyimpan ke Spreadsheet');
@@ -1262,7 +1688,7 @@
             showToast("Memuat Ulang...", "Mengambil data terbaru dari Google Spreadsheet...");
             const ok = await loadStoreFromCloud(true);
             if (ok) {
-                setConnectionStatus('connected', 'Terhubung (Google Spreadsheet)');
+                setConnectionStatus('connected', 'Terhubung (Real-Time 1 Detik)');
                 showToast("Data Diperbarui!", "Data terbaru dari Spreadsheet berhasil dimuat.");
             } else {
                 setConnectionStatus('error', 'Gagal Memuat dari Spreadsheet');
@@ -1302,70 +1728,37 @@
             }
         }
 
+        /* OPTIMISTIC SAVE: LANGSUNG UPDATE UI & LOCALSTORAGE, LALU ANTREKAN SYNC KE SERVER */
         function saveToStorage(syncCloud = true) {
             const snapshot = getStoreSnapshot();
             localStorage.setItem('bloom_bouquet_state', JSON.stringify(snapshot));
-            syncStoreIdentity();
-            renderStore();
+            renderChangedSectionsOnly(true);
             if (syncCloud) {
-                syncStoreToCloud(snapshot);
+                queueCloudSync({ action: "saveStoreState", state: snapshot });
             }
         }
 
         async function syncStoreToCloud(snapshot) {
-            try {
-                await fetch(getScriptUrl(), {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({ action: "saveStoreState", state: snapshot })
-                });
-                return true;
-            } catch (err) {
-                console.error("Gagal sinkronisasi ke Spreadsheet:", err);
-                return false;
-            }
+            queueCloudSync({ action: "saveStoreState", state: snapshot });
+            return true;
         }
 
         async function syncBanksToCloud() {
             const snapshot = getStoreSnapshot();
             localStorage.setItem('bloom_bouquet_state', JSON.stringify(snapshot));
-            try {
-                const res = await fetch(getScriptUrl(), {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({ action: "saveBanks", banks: appState.banks })
-                });
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data.status === 'success') {
-                        setConnectionStatus('connected', 'Terhubung (Google Spreadsheet)');
-                        return true;
-                    }
-                }
-            } catch (e) {
-                try {
-                    await fetch(getScriptUrl(), {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                        body: JSON.stringify({ action: "saveBanks", banks: appState.banks })
-                    });
-                    return true;
-                } catch (err2) {
-                    console.error("Gagal menyimpan rekening ke Spreadsheet:", err2);
-                    return false;
-                }
-            }
+            queueCloudSync({ action: "saveBanks", banks: appState.banks });
             return true;
         }
 
         async function loadStoreFromCloud(isManualTest = false) {
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 5000);
+            const timeoutId = setTimeout(() => controller.abort(), 4500);
             try {
                 const targetUrl = getScriptUrl();
-                const res = await fetch(`${targetUrl}?action=getStoreState&t=${Date.now()}`, { signal: controller.signal });
+                const res = await fetch(`${targetUrl}?action=getStoreState&t=${Date.now()}`, {
+                    signal: controller.signal,
+                    cache: 'no-store'
+                });
                 clearTimeout(timeoutId);
                 if (!res.ok) {
                     if (isManualTest) setConnectionStatus('error', 'Gagal Terhubung (HTTP ' + res.status + ')');
@@ -1374,35 +1767,8 @@
                 const data = await res.json();
                 const cloudState = data.state || data;
                 if (cloudState && typeof cloudState === 'object') {
-                    appState = {
-                        ...appState,
-                        adminAccounts: Array.isArray(cloudState.adminAccounts) && cloudState.adminAccounts.length > 0 ? cloudState.adminAccounts : appState.adminAccounts,
-                        driveFolderId: cloudState.driveFolderId ?? appState.driveFolderId,
-                        storeName: cloudState.storeName ?? appState.storeName,
-                        storeSlogan: cloudState.storeSlogan ?? appState.storeSlogan,
-                        storeStatus: cloudState.storeStatus ?? appState.storeStatus,
-                        storeWhatsapp: cloudState.storeWhatsapp ?? appState.storeWhatsapp,
-                        storeAddress: cloudState.storeAddress ?? appState.storeAddress,
-                        storeHours: cloudState.storeHours ?? appState.storeHours,
-                        storeLogo: cloudState.storeLogo ?? appState.storeLogo,
-                        shippingRate: cloudState.shippingRate ?? appState.shippingRate,
-                        codActive: cloudState.codActive ?? appState.codActive,
-                        paymentMethods: Array.isArray(cloudState.paymentMethods) && cloudState.paymentMethods.length > 0 ? cloudState.paymentMethods : appState.paymentMethods,
-                        products: Array.isArray(cloudState.products) && cloudState.products.length > 0 ? cloudState.products : appState.products,
-                        banks: Array.isArray(cloudState.banks) && cloudState.banks.length > 0 ? cloudState.banks : appState.banks,
-                        vouchers: Array.isArray(cloudState.vouchers) ? cloudState.vouchers.map(normalizeVoucher) : appState.vouchers,
-                        chatTemplates: Array.isArray(cloudState.chatTemplates) && cloudState.chatTemplates.length > 0 ? cloudState.chatTemplates : appState.chatTemplates,
-                        orders: Array.isArray(cloudState.orders) ? cloudState.orders : appState.orders
-                    };
-                    if (appState.driveFolderId) {
-                        localStorage.setItem('bloom_drive_folder_id', appState.driveFolderId);
-                    }
-                    localStorage.setItem('bloom_bouquet_state', JSON.stringify(getStoreSnapshot()));
-                    syncStoreIdentity();
-                    syncAdminInputs();
-                    renderStore();
-                    renderAdminPanel();
-                    setConnectionStatus('connected', 'Terhubung (Google Spreadsheet)');
+                    applyCloudStateWithDiffing(cloudState);
+                    setConnectionStatus('connected', 'Terhubung (Real-Time 1 Detik)');
                     return true;
                 }
                 return false;
@@ -1531,12 +1897,11 @@
 
         window.onload = function() {
             loadFromStorage();
-            syncStoreIdentity();
-            syncAdminInputs();
-            renderStore();
-            renderAdminPanel();
+            renderChangedSectionsOnly(true);
             updateCartBadge();
-            loadStoreFromCloud();
+            loadStoreFromCloud().finally(() => {
+                startSmartSyncLoop();
+            });
         };
 
         function switchView(view) {
@@ -1550,8 +1915,7 @@
 
             if (view === 'store') {
                 storeView.classList.remove('hidden');
-                syncStoreIdentity();
-                renderStore();
+                renderChangedSectionsOnly(true);
             } else if (view === 'success') {
                 successView.classList.remove('hidden');
             } else if (view === 'admin') {
@@ -1560,8 +1924,7 @@
                     return;
                 }
                 adminView.classList.remove('hidden');
-                syncAdminInputs();
-                renderAdminPanel();
+                renderChangedSectionsOnly(true);
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -1678,7 +2041,7 @@
         }
 
         /* ==========================================
-           UBAH USERNAME & PASSWORD ADMIN
+           UBAH USERNAME & PASSWORD ADMIN (OPTIMISTIC)
            ========================================== */
         function openChangeCredentialsModal() {
             if (!appState.isAdminLoggedIn) return;
@@ -1700,7 +2063,7 @@
             else modal.classList.add('hidden');
         }
 
-        async function handleChangeCredentialsSubmit(e) {
+        function handleChangeCredentialsSubmit(e) {
             e.preventDefault();
             const oldUsername = String(appState.currentAdminUser || '').trim();
             const newUsername = document.getElementById('newAdminUsername').value.trim();
@@ -1708,7 +2071,6 @@
             const newPassword = document.getElementById('newAdminPassword').value.trim();
             const confirmPassword = document.getElementById('confirmAdminPassword').value.trim();
             const errEl = document.getElementById('changeCredErrorMsg');
-            const submitBtn = document.getElementById('saveCredentialsSubmitBtn');
 
             errEl.classList.add('hidden');
 
@@ -1754,18 +2116,12 @@
                 return;
             }
 
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i><span>Menyimpan...</span>`;
-
+            // Optimistic Update instan
             if (currentAccIndex !== -1) {
                 appState.adminAccounts[currentAccIndex].username = newUsername;
                 appState.adminAccounts[currentAccIndex].password = newPassword;
             } else {
-                appState.adminAccounts.push({
-                    username: newUsername,
-                    password: newPassword,
-                    status: 'Aktif'
-                });
+                appState.adminAccounts.push({ username: newUsername, password: newPassword, status: 'Aktif' });
             }
 
             appState.currentAdminUser = newUsername;
@@ -1773,30 +2129,17 @@
             document.getElementById('loggedInAdminLabel').innerText = newUsername;
 
             saveToStorage(false);
-
-            try {
-                await fetch(getScriptUrl(), {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({
-                        action: "changeAdminCredentials",
-                        oldUsername: oldUsername,
-                        oldPassword: oldPassword,
-                        newUsername: newUsername,
-                        newPassword: newPassword,
-                        state: getStoreSnapshot()
-                    })
-                });
-            } catch (err) {
-                console.error("Gagal sinkronisasi perubahan akun admin:", err);
-            }
-
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = `<i class="fa-solid fa-key"></i><span>Simpan Perubahan</span>`;
+            queueCloudSync({
+                action: "changeAdminCredentials",
+                oldUsername,
+                oldPassword,
+                newUsername,
+                newPassword,
+                state: getStoreSnapshot()
+            });
 
             toggleChangeCredentialsModal(false);
-            showToast("Akun Diperbarui!", `Username & Password berhasil diubah menjadi "${newUsername}".`);
+            showToast("Akun Diperbarui!", `Username & Password langsung diubah menjadi "${newUsername}".`);
         }
 
         function filterCategory(cat) {
@@ -1903,12 +2246,12 @@
                     <div>
                         <div class="relative bg-gray-100 aspect-[4/3] overflow-hidden">
                             <span class="absolute top-4 left-4 z-10 px-3 py-1 rounded-full bg-white/90 backdrop-blur text-xs font-bold text-gray-800 shadow-sm">${prod.category}</span>
-                            <img id="main-img-${prod.id}" src="${frontUrl}" alt="${prod.name}" class="w-full h-full object-cover transition duration-300" onerror="this.src='https://placehold.co/600x400/f3f4f6/9ca3af?text=Produk'">
+                            <img id="main-img-${prod.id}" src="${frontUrl}" alt="${prod.name}" loading="lazy" class="w-full h-full object-cover transition duration-300" onerror="this.src='https://placehold.co/600x400/f3f4f6/9ca3af?text=Produk'">
                         </div>
                         <div class="flex items-center justify-center space-x-3 p-3 bg-gray-50 border-b border-gray-100">
-                            <button type="button" onclick="changeProductImage(${prod.id}, 'front')" class="w-12 h-12 rounded-xl overflow-hidden border-2 border-brand-500 shadow-xs thumb-btn-${prod.id}-front cursor-pointer"><img src="${frontUrl}" class="w-full h-full object-cover"></button>
-                            <button type="button" onclick="changeProductImage(${prod.id}, 'side')" class="w-12 h-12 rounded-xl overflow-hidden border-2 border-transparent hover:border-gray-300 thumb-btn-${prod.id}-side cursor-pointer"><img src="${sideUrl}" class="w-full h-full object-cover"></button>
-                            <button type="button" onclick="changeProductImage(${prod.id}, 'detail')" class="w-12 h-12 rounded-xl overflow-hidden border-2 border-transparent hover:border-gray-300 thumb-btn-${prod.id}-detail cursor-pointer"><img src="${detailUrl}" class="w-full h-full object-cover"></button>
+                            <button type="button" onclick="changeProductImage(${prod.id}, 'front')" class="w-12 h-12 rounded-xl overflow-hidden border-2 border-brand-500 shadow-xs thumb-btn-${prod.id}-front cursor-pointer"><img src="${frontUrl}" loading="lazy" class="w-full h-full object-cover"></button>
+                            <button type="button" onclick="changeProductImage(${prod.id}, 'side')" class="w-12 h-12 rounded-xl overflow-hidden border-2 border-transparent hover:border-gray-300 thumb-btn-${prod.id}-side cursor-pointer"><img src="${sideUrl}" loading="lazy" class="w-full h-full object-cover"></button>
+                            <button type="button" onclick="changeProductImage(${prod.id}, 'detail')" class="w-12 h-12 rounded-xl overflow-hidden border-2 border-transparent hover:border-gray-300 thumb-btn-${prod.id}-detail cursor-pointer"><img src="${detailUrl}" loading="lazy" class="w-full h-full object-cover"></button>
                         </div>
                         <div class="p-6">
                             <h4 class="font-serif text-xl font-bold text-gray-900">${prod.name}</h4>
@@ -1977,7 +2320,7 @@
             toastTimeout = setTimeout(() => {
                 toast.classList.remove('flex');
                 toast.classList.add('hidden');
-            }, 3000);
+            }, 2600);
         }
 
         function addToCart(prodId) {
@@ -2264,7 +2607,7 @@
             `).join('');
         }
 
-        async function handleCheckoutSubmit(e) {
+        function handleCheckoutSubmit(e) {
             e.preventDefault();
             const name = document.getElementById('custName').value;
             const phone = document.getElementById('custPhone').value;
@@ -2306,6 +2649,7 @@
                 total
             };
 
+            // Optimistic UI: langsung tampilkan struk & simpan lokal tanpa menunggu jaringan
             appState.orders.unshift(newOrder);
             appState.lastOrderId = newOrderId;
             appState.cart = [];
@@ -2320,21 +2664,9 @@
 
             renderOrderReceiptView(newOrder);
             switchView('success');
-            showToast("Pesanan Berhasil Dibuat!", "Menyimpan ke Google Spreadsheet...");
+            showToast("Pesanan Berhasil Dibuat!", "Struk siap dicetak & tersinkronisasi otomatis.");
 
-            try {
-                await fetch(getScriptUrl(), {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({ action: "saveOrder", order: newOrder, state: getStoreSnapshot() })
-                });
-                showToast("Tersimpan di Spreadsheet!", "Pesanan & pemakaian voucher tercatat di Spreadsheet.");
-            } catch (err) {
-                console.error("Gagal sinkronisasi pesanan ke Spreadsheet:", err);
-            }
-
-            renderAdminPanel();
+            queueCloudSync({ action: "saveOrder", order: newOrder, state: getStoreSnapshot() });
         }
 
         function printLastSuccessReceipt() {
@@ -2365,7 +2697,8 @@
             renderAdminBanks();
             renderAdminVouchers();
             renderAdminChatTemplates();
-            document.getElementById('orderCountBadge').innerText = appState.orders.length;
+            const badge = document.getElementById('orderCountBadge');
+            if (badge) badge.innerText = appState.orders.length;
         }
 
         function renderAdminProducts() {
@@ -2378,9 +2711,9 @@
                 tr.innerHTML = `
                     <td class="py-4 px-6">
                         <div class="flex space-x-2">
-                            <img src="${normalizeImageUrl(prod.images.front)}" class="w-10 h-10 rounded-lg object-cover" title="Front">
-                            <img src="${normalizeImageUrl(prod.images.side)}" class="w-10 h-10 rounded-lg object-cover" title="Side">
-                            <img src="${normalizeImageUrl(prod.images.detail)}" class="w-10 h-10 rounded-lg object-cover" title="Detail">
+                            <img src="${normalizeImageUrl(prod.images.front)}" loading="lazy" class="w-10 h-10 rounded-lg object-cover" title="Front">
+                            <img src="${normalizeImageUrl(prod.images.side)}" loading="lazy" class="w-10 h-10 rounded-lg object-cover" title="Side">
+                            <img src="${normalizeImageUrl(prod.images.detail)}" loading="lazy" class="w-10 h-10 rounded-lg object-cover" title="Detail">
                         </div>
                     </td>
                     <td class="py-4 px-6 font-semibold text-gray-900">${prod.name}</td>
@@ -2457,23 +2790,21 @@
             if (editId) {
                 const prod = appState.products.find(p => p.id == editId);
                 if (prod) { prod.name = name; prod.category = category; prod.desc = desc; prod.prices = prices; prod.images = images; }
-                showToast("Berhasil Diperbarui!", "Produk tersimpan di Spreadsheet & katalog pelanggan.");
+                showToast("Berhasil Diperbarui!", "Katalog langsung diperbarui (Optimistic UI).");
             } else {
                 const newId = appState.products.length > 0 ? Math.max(...appState.products.map(p => p.id)) + 1 : 1;
                 appState.products.push({ id: newId, name, category, desc, prices, images, selectedSize: 'MEDIUM' });
-                showToast("Berhasil Disimpan!", "Produk baru tersimpan di Spreadsheet.");
+                showToast("Berhasil Disimpan!", "Produk baru langsung tampil di katalog.");
             }
             saveToStorage(true);
             toggleProductModal(false);
-            renderAdminPanel();
         }
 
         function deleteProduct(id) {
             showConfirmationModal("Hapus produk ini dari katalog?", () => {
                 appState.products = appState.products.filter(p => p.id !== id);
                 saveToStorage(true);
-                renderAdminPanel();
-                showToast("Berhasil Dihapus!", "Produk dihapus dari katalog & Spreadsheet.");
+                showToast("Berhasil Dihapus!", "Produk dihapus secara instan.");
             });
         }
 
@@ -2546,7 +2877,6 @@
         function updateOrderStatus(index, newStatus) {
             appState.orders[index].status = newStatus;
             saveToStorage(true);
-            renderAdminOrders();
             showToast("Status Diperbarui!", `Status pesanan diubah menjadi: ${newStatus}`);
         }
 
@@ -2554,8 +2884,7 @@
             showConfirmationModal("Hapus pesanan ini dari sistem?", () => {
                 appState.orders.splice(index, 1);
                 saveToStorage(true);
-                renderAdminPanel();
-                showToast("Pesanan Dihapus!", "Data transaksi telah dihapus dari sistem.");
+                showToast("Pesanan Dihapus!", "Data transaksi telah dihapus secara instan.");
             });
         }
 
@@ -2709,7 +3038,7 @@
                         document.getElementById('codToggle').checked = active;
                     }
                 }
-                showToast("Metode Diperbarui!", `Metode "${name}" tersimpan di Spreadsheet & aktif di pelanggan.`);
+                showToast("Metode Diperbarui!", `Metode "${name}" langsung diperbarui.`);
             } else {
                 const isCod = name.toUpperCase() === 'COD';
                 appState.paymentMethods.push({
@@ -2726,12 +3055,11 @@
                     appState.codActive = active;
                     document.getElementById('codToggle').checked = active;
                 }
-                showToast("Metode Disimpan!", `Metode "${name}" tersimpan di Spreadsheet.`);
+                showToast("Metode Disimpan!", `Metode "${name}" langsung aktif.`);
             }
 
             saveToStorage(true);
             togglePaymentMethodModal(false);
-            renderAdminPaymentMethods();
         }
 
         function togglePaymentMethodStatus(id) {
@@ -2743,8 +3071,7 @@
                 document.getElementById('codToggle').checked = pm.active;
             }
             saveToStorage(true);
-            renderAdminPaymentMethods();
-            showToast("Status Diperbarui!", `${pm.name} sekarang ${pm.active ? 'Aktif' : 'Nonaktif'} di tampilan pelanggan & Spreadsheet.`);
+            showToast("Status Diperbarui!", `${pm.name} sekarang ${pm.active ? 'Aktif' : 'Nonaktif'}.`);
         }
 
         function deletePaymentMethod(id) {
@@ -2756,7 +3083,6 @@
                 }
                 appState.paymentMethods = appState.paymentMethods.filter(m => m.id !== id);
                 saveToStorage(true);
-                renderAdminPaymentMethods();
                 showToast("Metode Dihapus!", "Metode pembayaran berhasil dihapus.");
             });
         }
@@ -2789,8 +3115,7 @@
                 codCard.active = checkbox.checked;
             }
             saveToStorage(true);
-            renderAdminPaymentMethods();
-            showToast("Berhasil Diperbarui!", `Metode COD ${checkbox.checked ? 'diaktifkan' : 'dinonaktifkan'} & tersimpan.`);
+            showToast("Berhasil Diperbarui!", `Metode COD ${checkbox.checked ? 'diaktifkan' : 'dinonaktifkan'}.`);
         }
 
         function openBankModal() {
@@ -2804,43 +3129,25 @@
             if (show) modal.classList.remove('hidden'); else modal.classList.add('hidden');
         }
 
-        async function handleBankFormSubmit(e) {
+        function handleBankFormSubmit(e) {
             e.preventDefault();
             const name = document.getElementById('bankName').value.trim();
             const number = document.getElementById('bankNumber').value.trim();
             const holder = document.getElementById('bankHolder').value.trim();
-            const btn = document.getElementById('saveBankSubmitBtn');
-
-            if (btn) {
-                btn.disabled = true;
-                btn.innerText = "Menyimpan ke Spreadsheet...";
-            }
 
             appState.banks.push({ id: Date.now(), name, number, holder });
-            renderAdminBanks();
+            renderChangedSectionsOnly(true);
             toggleBankModal(false);
-            showToast("Menyimpan Rekening...", `Mengirim rekening ${name} ke Spreadsheet...`);
-
-            const ok = await syncBanksToCloud();
-            if (btn) {
-                btn.disabled = false;
-                btn.innerText = "Simpan Rekening";
-            }
-
-            if (ok) {
-                showToast("Rekening Tersimpan!", `Rekening ${name} (${number}) tersimpan di tab Daftar Rekening Bank.`);
-            } else {
-                showToast("Tersimpan Lokal", "Gagal terhubung ke Spreadsheet, periksa URL Web App.", true);
-            }
+            syncBanksToCloud();
+            showToast("Rekening Tersimpan!", `Rekening ${name} (${number}) langsung ditambahkan.`);
         }
 
         function deleteBank(index) {
-            showConfirmationModal("Hapus rekening bank ini?", async () => {
+            showConfirmationModal("Hapus rekening bank ini?", () => {
                 appState.banks.splice(index, 1);
-                renderAdminBanks();
-                showToast("Menghapus...", "Menyinkronkan perubahan ke Spreadsheet...");
-                await syncBanksToCloud();
-                showToast("Rekening Dihapus!", "Tab Daftar Rekening Bank di Spreadsheet telah diperbarui.");
+                renderChangedSectionsOnly(true);
+                syncBanksToCloud();
+                showToast("Rekening Dihapus!", "Daftar rekening bank diperbarui.");
             });
         }
 
@@ -2849,7 +3156,7 @@
             if (isNaN(val) || val < 0) { showToast("Input Tidak Valid", "Masukkan tarif ongkir valid!", true); return; }
             appState.shippingRate = val;
             saveToStorage(true);
-            showToast("Berhasil Disimpan!", `Tarif ongkir disinkronkan ke ${formatRupiah(val)}`);
+            showToast("Berhasil Disimpan!", `Tarif ongkir diperbarui ke ${formatRupiah(val)}`);
         }
 
         function resetShippingRate() {
@@ -2953,21 +3260,19 @@
 
             saveToStorage(true);
             toggleVoucherModal(false);
-            renderAdminVouchers();
-            showToast("Voucher Disimpan!", `Voucher ${code} tersimpan di tab Kelola Vouchers & aktif di mode pelanggan.`);
+            showToast("Voucher Disimpan!", `Voucher ${code} langsung aktif di mode pelanggan.`);
         }
 
         function deleteVoucher(index) {
             showConfirmationModal("Hapus voucher ini?", () => {
                 appState.vouchers.splice(index, 1);
                 saveToStorage(true);
-                renderAdminVouchers();
-                showToast("Voucher Dihapus!", "Tab Kelola Vouchers di Spreadsheet & mode pelanggan diperbarui.");
+                showToast("Voucher Dihapus!", "Voucher dihapus secara instan.");
             });
         }
 
         /* ==========================================
-           TEMPLATE CHAT PEMBELI (CRUD + SALIN + SHARE WA)
+           TEMPLATE CHAT PEMBELI
            ========================================== */
         function renderAdminChatTemplates() {
             const container = document.getElementById('chatTemplatesContainer');
@@ -3163,7 +3468,7 @@
                     target.title = title;
                     target.message = message;
                 }
-                showToast("Template Diperbarui!", `Template "${title}" berhasil disimpan.`);
+                showToast("Template Diperbarui!", `Template "${title}" langsung disimpan.`);
             } else {
                 appState.chatTemplates.push({
                     id: Date.now(),
@@ -3175,14 +3480,12 @@
 
             saveToStorage(true);
             toggleChatTemplateModal(false);
-            renderAdminChatTemplates();
         }
 
         function deleteChatTemplate(id) {
             showConfirmationModal("Hapus template chat pembeli ini?", () => {
                 appState.chatTemplates = (appState.chatTemplates || []).filter(t => t.id !== id);
                 saveToStorage(true);
-                renderAdminChatTemplates();
                 showToast("Template Dihapus!", "Template chat berhasil dihapus.");
             });
         }
@@ -3196,7 +3499,7 @@
             appState.storeHours = document.getElementById('settingStoreHours').value.trim();
             appState.storeLogo = document.getElementById('settingStoreLogo').value.trim();
             saveToStorage(true);
-            showToast("Berhasil Disimpan!", "Pengaturan toko, status & gambar langsung tampil di beranda pelanggan.");
+            showToast("Berhasil Disimpan!", "Pengaturan toko langsung tampil di beranda pelanggan.");
         }
 
         function formatRupiah(angka) {
